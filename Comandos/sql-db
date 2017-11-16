@@ -1,0 +1,22 @@
+sqlite> 
+
+
+CREATE TABLE miembros(idMiembro INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nombreMiembro VARCHAR(255) NOT NULL, apellidoMiembro VARCHAR(255) NOT NULL, telefonoMiembro INT NOT NULL, activoMiembro BOOLEAN NOT NULL);
+INSERT INTO miembros(nombreMiembro, apellidoMiembro, telefonoMiembro, activoMiembro) VALUES('Juan Carlos','Pleitez Cortez', 76876868, 1);
+INSERT INTO miembros(nombreMiembro, apellidoMiembro, telefonoMiembro, activoMiembro) VALUES('Diana Melissa','Magaña Batres',61117759, 1);
+
+
+CREATE TABLE sucursales(idSucursal INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nombreSucursal VARCHAR(255) NOT NULL, direccionSucursal VARCHAR(255) NOT NULL, telefonoSucursal INT NOT NULL, activoSucursal BOOLEAN NOT NULL);
+INSERT INTO sucursales(nombreSucursal, direccionSucursal, telefonoSucursal, activoSucursal) VALUES('El Tio Santa Ana','Av. fray felipe',24737355, 1);
+INSERT INTO sucursales(nombreSucursal, direccionSucursal, telefonoSucursal, activoSucursal) VALUES('El Tio San Salvador','Av. Alcaldia',24737356, 1);
+
+CREATE TABLE tipoPago(idTipoPago INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, precioTipoPago DECIMAL(10,2) NOT NULL, nombreTipoPago VARCHAR(255) NOT NULL,descripcionTipoPago VARCHAR(255) NOT NULL);
+INSERT INTO tipoPago(precioTipoPago, nombreTipoPago, descripcionTipoPago) VALUES(10.25,'Matricula','La matricula del año');
+INSERT INTO tipoPago(precioTipoPago, nombreTipoPago, descripcionTipoPago) VALUES(5.00,'Mensual','Pagos mensuales');
+
+
+CREATE TABLE pagos(idPago INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,idTipoPago INTEGER NOT NULL,idMiembro INTEGER NOT NULL,idSucursal INTEGER NOT NULL, FOREIGN KEY(idTipoPago) REFERENCES tipoPago(idTipoPago), FOREIGN KEY(idMiembro) REFERENCES miembros(idMiembro), FOREIGN KEY(idSucursal) REFERENCES sucursales(idSucursal));
+INSERT INTO pagos(idTipoPago, idMiembro, idSucursal) VALUES(1,1,1);
+INSERT INTO pagos(idTipoPago, idMiembro, idSucursal) VALUES(2,1,1);
+INSERT INTO pagos(idTipoPago, idMiembro, idSucursal) VALUES(1,2,1);
+INSERT INTO pagos(idTipoPago, idMiembro, idSucursal) VALUES(2,2,1);
