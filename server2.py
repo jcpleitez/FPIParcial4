@@ -16,26 +16,6 @@ class Sucursales(Resource):
        result = [dict(zip(tuple (query.keys()) ,i)) for i in query.cursor]
        return jsonify(result)
 
-   def post(self):
-        conn = db_connect.connect()
-        try:
-            activo = request.json['activoSucursal']
-            contra = request.json['contrasenaSucursal']
-            direc = request.json['direccionSucursal']
-            idS = request.json['idSucursal']
-            idS = 0
-            nombre = request.json['nombreSucursal']
-            telefono = request.json['telefonoSucursal']
-            textInsert = "insert into sucursales(nombreSucursal, direccionSucursal, telefonoSucursal, activoSucursal, contrasenaSucursal) VALUES(?,?,?,?,?)"
-            query = conn.execute(textInsert, (nombre, direc, telefono, activo, contra))
-            print "OK new POST in sucursales"
-            status = True
-        except:
-            print "Bad JSON POST in sucursales"
-            status = False
-
-        return status
-
 class SucursalesID(Resource):
    def get(self, idSucursal):
        conn = db_connect.connect() # connect to database
@@ -51,30 +31,6 @@ class Miembros(Resource):
     	for i in query.cursor: miembros.append(dict(zip(tuple (query.keys()) ,i)))
         return jsonify(miembros)
 
-    def post(self):
-         conn = db_connect.connect()
-         try:
-             #Verificar sucursal
-             idS = request.json['idSucursal']
-             querySucural = conn.execute("select * from sucursales where idSucursal =%d "  %int(idS))
-             idS = querySucural.fetchone()[0]
-             #
-             idM = request.json['idMiembro']
-             idM = 0
-             nombre = request.json['nombreMiembro']
-             apellido = request.json['apellidoMiembro']
-             telefono = request.json['telefonoMiembro']
-             activo = request.json['activoMiembro']
-             textInsert = "insert into miembros(idSucursal, nombreMiembro, apellidoMiembro, telefonoMiembro, activoMiembro) VALUES(?,?,?,?,?)"
-             query = conn.execute(textInsert, (idS, nombre, apellido, telefono, activo))
-             print "OK new POST in miembros"
-             status = True
-         except:
-             print "Bad JSON POST in miembros"
-             status = False
-
-         return status
-
 class MiembrosID(Resource):
     def get(self, idMiembro):
         conn = db_connect.connect()
@@ -89,30 +45,6 @@ class Empleados(Resource):
     	empleados = []
     	for i in query.cursor: empleados.append(dict(zip(tuple (query.keys()) ,i)))
         return jsonify(empleados)
-
-    def post(self):
-         conn = db_connect.connect()
-         try:
-             #Verificar sucursal
-             idS = request.json['idSucursal']
-             querySucural = conn.execute("select * from sucursales where idSucursal =%d "  %int(idS))
-             idS = querySucural.fetchone()[0]
-             #
-             idE = request.json['idEmpleado']
-             idE = 0
-             nombre = request.json['nombreEmpleado']
-             apellido = request.json['apellidoEmpleado']
-             telefono = request.json['telefonoEmpleado']
-             activo = request.json['activoEmpleado']
-             textInsert = "insert into empleados(idSucursal, nombreEmpleado, apellidoEmpleado, telefonoEmpleado, activoEmpleado) VALUES(?,?,?,?,?)"
-             query = conn.execute(textInsert, (idS, nombre, apellido, telefono, activo))
-             print "OK new POST in empleados"
-             status = True
-         except:
-             print "Bad JSON POST in empleados"
-             status = False
-
-         return status
 
 class EmpleadosID(Resource):
     def get(self, idEmpleado):
