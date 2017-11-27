@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>El tío</title>
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/gym.css" rel="stylesheet">
+    <link rel=icon href="img/favicon.png" type="image/png">
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+    <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="vendor/devicons/css/devicons.min.css" rel="stylesheet">
+    <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+  </head>
+
+  <body id="page-top">
+
+    <!-- Menu izquierda -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+      <a class="navbar-brand js-scroll-trigger" >
+        <span class="d-block d-lg-none">El tío</span>
+        <span class="d-none d-lg-block">
+          <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="img/profile.png" alt="">
+        </span>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">Acerca de</a></li>
+          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#experience">Agregar Miembro</a></li>
+          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#education">Realizar Pagos</a></li>
+          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">Mostrar Miembros</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Secciones -->
+    <div class="container-fluid p-0">
+      <!-- Acerca de -->
+      <section class="resume-section p-3 p-lg-5 d-flex d-column" id="about">
+        <div class="fondoSeccion">
+          <div class="my-auto">
+            <div class="divTitulo">
+              <h1 class="mb-0">Gimnasio  <span class="text-primary">El Tío</span></h1>
+              <br>
+              <label>Sucursal : </label><label id="nombreSucursal">nombreSucursal</label><br>
+              <label>Código : </label><label id="idSucursal">idSucursal</label>
+            </div>
+            <div class="contenido container">
+              <p class="mb-5">Sistema encargado de los empleados del gimnasio El Tío<br> Nivel jerárgico que maneja la administración de los miembros, incluidos los pagos de matrícula y membresía</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    <!-- Agregar miembro -->
+    <section class="resume-section p-3 p-lg-5 d-flex d-column" id="experience">
+      <div class="fondoSeccion">
+        <div class="my-auto">
+          <div class="divTitulo">
+            <h2 class="mb-5">Agregar miembro</h2>
+          </div>
+          <div class="contenido container">
+            <form  method="post">
+              <div class="col-xs-3">
+                <label >Nombre: </label><input class="inputs" type="text" placeholder="Nombre"><br>
+                <label >Apellido: </label><input class="inputs" type="text" placeholder="Apellido"><br>
+                <label >Teléfono: </label><input class="inputs" type="number" placeholder="Teléfono"><br>
+              </div>
+              <p>Al agregar un miembro, luego realizar el pago de la matrícula</p>
+            <input type="submit" class="btn btn-success" value="Agregar"/>
+            <button type="button" class="btn btn-danger">Cancelar</button>
+          </form>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- Realizar Pagos-->
+    <section class="resume-section p-3 p-lg-5 d-flex d-column" id="education">
+      <div class="fondoSeccion">
+        <div class="my-auto">
+          <div class="divTitulo">
+            <h2 class="mb-5">Realizar Pagos</h2>
+          </div>
+
+          <div class="contenido container">
+            <label>Sucursal: </label>
+            <select class="form-control selectB" id="sucursales">
+              <option value="Sucursal"></option>
+              <!-- option con appendchild-->
+            </select>
+            <br>
+            <label>Miembro: </label>
+            <input id="miembroPago" class="header-input inputs" list="miembros" type="text" placeholder="Buscar miembro..."/>
+            <datalist id="miembros">
+            <!--Los option con appendChild-->
+            </datalist>
+            <ul class="nav nav-tabs">
+              <li class="active"><a class="opcionesPago" data-toggle="tab" href="#home">Matrícula</a></li>
+              <li><a class="opcionesPago" data-toggle="tab" href="#menu1">Mensualidad</a></li>
+            </ul>
+
+            <div class="tab-content">
+              <div id="home" class="tab-pane fade in active">
+                <form class="" method="post">
+                  <label>Monto: </label><label id="tipoPago">$200</label><br>
+                  <label>Empleado: </label>
+                  <select class="form-control selectB" id="empleados">
+                    <option value="Sucursal"></option>
+                    <!-- option con appendchild-->
+                  </select>
+                  <br><br><br>
+                  <input type="submit" class="btn btn-success" value="Pagar"/>
+                  <button type="button" class="btn btn-danger">Cancelar</button>
+                </form>
+              </div>
+
+              <div id="menu1" class="tab-pane fade">
+                <form class="" method="post">
+                  <label>Monto: </label><label id="tipoPago">$50</label><br>
+                  <label>Empleado: </label>
+                  <select class="form-control selectB" id="empleados">
+                    <option value="Sucursal"></option>
+                    <!-- option con appendchild-->
+                  </select>
+                  <br><br><br>
+                  <input type="submit" class="btn btn-success" value="Pagar"/>
+                  <button type="button" class="btn btn-danger">Cancelar</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mostrar miembros-->
+    <section class="resume-section p-3 p-lg-5 d-flex d-column" id="skills">
+      <div class="fondoSeccion">
+        <div class="divTitulo">
+          <h2 class="mb-5">Miembros:</h2>
+        </div>
+        <div class="contenido container text-center">
+          <div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Miembro1</a>
+        </h4>
+      </div>
+      <div id="collapse1" class="panel-collapse collapse in">
+        <div class="panel-body">
+          <p>Nombre miembro y sus datos bla bla bla</p>
+          <button type="button" class="btn btn-danger">Eliminar</button>
+          <button type="button" class="btn">Inactivo</button>
+        </div>
+      </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Miembro2</a>
+        </h4>
+      </div>
+      <div id="collapse2" class="panel-collapse collapse">
+        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Miembro3</a>
+        </h4>
+      </div>
+      <div id="collapse3" class="panel-collapse collapse">
+        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="js/gym.js"></script>
+  </body>
+</html>
