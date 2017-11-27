@@ -16,6 +16,21 @@ def after_request(response):
   response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
   return response
 
+class SucursalLogin(Resource):
+    def post(self):
+        conn = db_connect.connect()
+        try:
+            contra = request.json['contrasenaSucursal']
+            user = request.json['userSucursal']
+            textQuery = "select * from sucursales where userSucursal =? and contrasenaSucursal=?"
+            print "OK"
+            query = conn.execute(textQuery, (user, contra))
+            for i in query.cursor: result=dict(zip(tuple (query.keys()) ,i))
+            return jsonify(result)
+        except:
+            print "Bad JSON POST login in sucursales"
+            status = False
+        return status
 
 class Sucursales(Resource):
    def get(self):
@@ -32,10 +47,11 @@ class Sucursales(Resource):
             direc = request.json['direccionSucursal']
             idS = request.json['idSucursal']
             idS = 0
+            user = request.json['userSucursal']
             nombre = request.json['nombreSucursal']
             telefono = request.json['telefonoSucursal']
-            textInsert = "insert into sucursales(nombreSucursal, direccionSucursal, telefonoSucursal, activoSucursal, contrasenaSucursal) VALUES(?,?,?,?,?)"
-            query = conn.execute(textInsert, (nombre, direc, telefono, activo, contra))
+            textInsert = "insert into sucursales(nombreSucursal, userSucursal, direccionSucursal, telefonoSucursal, activoSucursal, contrasenaSucursal) VALUES(?,?,?,?,?,?)"
+            query = conn.execute(textInsert, (nombre, user, direc, telefono, activo, contra))
             print "OK new POST in sucursales"
             status = True
         except:
@@ -83,31 +99,17 @@ class Miembros(Resource):
 
          return status
 
-     def put(self):
-          conn = db_connect.connect()
-          try:
-              #Verificar sucursal
-              idS = request.json['idSucursal']
-              queryS = conn.execute("select * from sucursales where idSucursal =%d "  %int(idS))
-              idS = queryS.fetchone()[0]
-              #Datos miembro
-              idM = request.json['idMiembro']
-              queryM = conn.execute("select * from miembros where idMiembro =%d "  %int(idM))
-              idM = queryM.fetchone()[0]
-              nombre = request.json['nombreMiembro']
-              apellido = request.json['apellidoMiembro']
-              telefono = request.json['telefonoMiembro']
-              activo = request.json['activoMiembro']
-              textInsert = "update miembros set  = ? WHERE idMiembro =%d "  %int(idM))
-              query = conn.execute(textInsert, (activo))
-              print "OK PUT in miembros"
-              status = True
-          except:
-              print "Bad JSON PUT in miembros"
-              status = False
-
-          return status
-
+class MiembrosSucursal(Resource):
+    def get(self, idSucursal):
+        conn = db_connect.connect()
+        try:
+            query = conn.execute("select * from miembros where activoMiembro=1 and idSucursal =%d "  %int(idSucursal))
+            miembros = []
+            for i in query.cursor: miembros.append(dict(zip(tuple (query.keys()) ,i)))
+            print "OK GET  miebros activos por sucursales"
+            return jsonify(miembros)
+        except:
+            return False
 
 class MiembrosID(Resource):
     def get(self, idMiembro):
@@ -219,10 +221,11 @@ class PagosID(Resource):
         for i in query.cursor: result=dict(zip(tuple (query.keys()) ,i))
         return jsonify(result)
 
-
+api.add_resource(SucursalLogin, '/login') # Direccion sucursales
 api.add_resource(Sucursales, '/sucursales') # Direccion sucursales
 api.add_resource(SucursalesID, '/sucursales/<idSucursal>') # Direccion de sucursal id
 api.add_resource(Miembros, '/miembros') # Direccion de miembos
+api.add_resource(MiembrosSucursal, '/miembros/sucursal/<idSucursal>') # Direccion de miembos id
 api.add_resource(MiembrosID, '/miembros/<idMiembro>') # Direccion de miembos id
 api.add_resource(Empleados, '/empleados') # Direccion de empleados
 api.add_resource(EmpleadosID, '/empleados/<idEmpleado>') # Direccion de empleados id

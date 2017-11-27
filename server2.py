@@ -9,6 +9,29 @@ db_connect = create_engine('sqlite:///gym.db')
 app = Flask(__name__)
 api = Api(app)
 
+@app.after_request
+def after_request(response):
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+  return response
+
+class SucursalLogin(Resource):
+    def post(self):
+        conn = db_connect.connect()
+        try:
+            contra = request.json['contrasenaSucursal']
+            idS = request.json['idSucursal']
+            textInsert = "select * from sucursales where idSucursal=%d " %int(idSucursal))
+            query = conn.execute(textInsert, (nombre, direc, telefono, activo, contra))
+            print "OK JSON login sucursal"
+            status = True
+        except:
+            print "Bad JSON POST o sucursal no existe"
+            status = False
+
+        return status
+
 class Sucursales(Resource):
    def get(self):
        conn = db_connect.connect() # connect to database
@@ -58,7 +81,7 @@ class Miembros(Resource):
              idS = request.json['idSucursal']
              querySucural = conn.execute("select * from sucursales where idSucursal =%d "  %int(idS))
              idS = querySucural.fetchone()[0]
-             #
+             #Datos miembro
              idM = request.json['idMiembro']
              idM = 0
              nombre = request.json['nombreMiembro']
@@ -74,6 +97,7 @@ class Miembros(Resource):
              status = False
 
          return status
+
 
 class MiembrosID(Resource):
     def get(self, idMiembro):
@@ -97,7 +121,7 @@ class Empleados(Resource):
              idS = request.json['idSucursal']
              querySucural = conn.execute("select * from sucursales where idSucursal =%d "  %int(idS))
              idS = querySucural.fetchone()[0]
-             #
+             #Datos empleados
              idE = request.json['idEmpleado']
              idE = 0
              nombre = request.json['nombreEmpleado']
@@ -145,23 +169,35 @@ class Pagos(Resource):
     def post(self):
          conn = db_connect.connect()
          try:
+             #Verificar empleado
+             idE = request.json['idEmpleado']
+             queryE = conn.execute("select * from empleados where idEmpleado =%d "  %int(idE))
+             idE = queryE.fetchone()[0]
+             #Verificar miembro
+             idM = request.json['idMiembro']
+             queryM = conn.execute("select * from miembros where idMiembro =%d "  %int(idM))
+             idM = queryM.fetchone()[0]
              #Verificar sucursal
              idS = request.json['idSucursal']
-             querySucural = conn.execute("select * from sucursales where idSucursal =%d "  %int(idS))
-             idS = querySucural.fetchone()[0]
-             #
-             idE = request.json['idEmpleado']
-             idE = 0
-             nombre = request.json['nombreEmpleado']
-             apellido = request.json['apellidoEmpleado']
-             telefono = request.json['telefonoEmpleado']
-             activo = request.json['activoEmpleado']
-             textInsert = "insert into empleados(idSucursal, nombreEmpleado, apellidoEmpleado, telefonoEmpleado, activoEmpleado) VALUES(?,?,?,?,?)"
-             query = conn.execute(textInsert, (idS, nombre, apellido, telefono, activo))
-             print "OK new POST in empleados"
+             queryS = conn.execute("select * from sucursales where idSucursal =%d "  %int(idS))
+             idS = queryS.fetchone()[0]
+             #Verificar tipo pago
+             idTP = request.json['idTipoPago']
+             queryTP = conn.execute("select * from tipoPago where idTipoPago =%d "  %int(idTP))
+             idTP = queryTP.fetchone()[0]
+             #Fecha
+             fecha = request.json['datePago']
+             fecha = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+             #Verificar que no existes un pago igual idPago
+             idP = request.json['idPago']
+
+             #print idP
+             textInsert = "insert into pagos(idTipoPago, idMiembro, idEmpleado, idSucursal, datePago) VALUES(?,?,?,?,?)"
+             query = conn.execute(textInsert, (idTP, idM, idE, idS, fecha))
+             print "OK new POST in pagos"
              status = True
          except:
-             print "Bad JSON POST in empleados"
+             print "Bad JSON POST in pagos"
              status = False
 
          return status
