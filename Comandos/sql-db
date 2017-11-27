@@ -3,7 +3,7 @@ sqlite>
 CREATE TABLE sucursales(idSucursal INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nombreSucursal VARCHAR(255) NOT NULL, direccionSucursal VARCHAR(255) NOT NULL, telefonoSucursal INT NOT NULL, activoSucursal BOOLEAN NOT NULL, contrasenaSucursal VARCHAR(255) NOT NULL);
 INSERT INTO sucursales(nombreSucursal, direccionSucursal, telefonoSucursal, activoSucursal, contrasenaSucursal) VALUES('El Tio Santa Ana','Av. fray felipe',24737355, 1, 'admin');
 INSERT INTO sucursales(nombreSucursal, direccionSucursal, telefonoSucursal, activoSucursal, contrasenaSucursal) VALUES('El Tio San Salvador','Av. Alcaldia',24737356, 1,'super');
- 
+
 
 
 CREATE TABLE miembros(idMiembro INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, idSucursal INTEGER NOT NULL, nombreMiembro VARCHAR(255) NOT NULL, apellidoMiembro VARCHAR(255) NOT NULL, telefonoMiembro INT NOT NULL, activoMiembro BOOLEAN NOT NULL, FOREIGN KEY(idSucursal) REFERENCES sucursales(idSucursal));
@@ -25,12 +25,11 @@ INSERT INTO tipoPago(precioTipoPago, nombreTipoPago, descripcionTipoPago) VALUES
 
 
 
-CREATE TABLE pagos(idPago INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, idTipoPago INTEGER NOT NULL,idMiembro INTEGER NOT NULL, idSucursal INTEGER NOT NULL, datePago TEXT NOT NULL, FOREIGN KEY(idTipoPago) REFERENCES tipoPago(idTipoPago), FOREIGN KEY(idMiembro) REFERENCES miembros(idMiembro), FOREIGN KEY(idSucursal) REFERENCES sucursales(idSucursal));
-INSERT INTO pagos(idTipoPago, idMiembro, idSucursal, datePago) VALUES(1,1,1,'2017-01-01T06:43:00');
-INSERT INTO pagos(idTipoPago, idMiembro, idSucursal, datePago) VALUES(2,1,1,'2017-05-07T07:53:00');
-INSERT INTO pagos(idTipoPago, idMiembro, idSucursal, datePago) VALUES(1,2,1,'2017-01-17T04:20:01');
-INSERT INTO pagos(idTipoPago, idMiembro, idSucursal, datePago) VALUES(2,2,1,'2017-11-26T09:03:02');
+CREATE TABLE pagos(idPago INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, idTipoPago INTEGER NOT NULL, idMiembro INTEGER NOT NULL, idEmpleado INTEGER NOT NULL, idSucursal INTEGER NOT NULL, datePago TEXT NOT NULL, FOREIGN KEY(idTipoPago) REFERENCES tipoPago(idTipoPago), FOREIGN KEY(idMiembro) REFERENCES miembros(idMiembro), FOREIGN KEY(idEmpleado) REFERENCES empleados(idMiembro), FOREIGN KEY(idSucursal) REFERENCES sucursales(idSucursal));
+INSERT INTO pagos(idTipoPago, idMiembro, idEmpleado, idSucursal, datePago) VALUES(1,1,1,1,'2017-01-01T06:43:00');
+INSERT INTO pagos(idTipoPago, idMiembro, idEmpleado, idSucursal, datePago) VALUES(2,1,2,1,'2017-05-07T07:53:00');
+INSERT INTO pagos(idTipoPago, idMiembro, idEmpleado, idSucursal, datePago) VALUES(1,2,3,1,'2017-01-17T04:20:01');
+INSERT INTO pagos(idTipoPago, idMiembro, idEmpleado, idSucursal, datePago) VALUES(2,2,1,1,'2017-11-26T09:03:02');
 
-
-
-
+INSERT INTO pagos(idTipoPago, idMiembro, idEmpleado, idSucursal, datePago) VALUES(2,2,1,1,'2017-11-26T09:03:02') WHERE NOT EXISTS(SELECT * FROM pagos WHERE idTipoPago=1 AND idEmpleado=1);
+SELECT * FROM pagos WHERE NOT EXISTS (SELECT *FROM pagos WHERE idTipoPago=1 AND idMiembro=1);
