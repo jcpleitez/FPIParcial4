@@ -235,5 +235,4 @@ api.add_resource(Pagos, '/pagos') # Direccion de pagos
 api.add_resource(PagosID, '/pagos/<idPago>') # Direccion de pagos
 
 if __name__ == '__main__':
-     app.run(host='0.0.0.0')
-     app.run(port='5002')
+     app.run(host='0.0.0.0',port='5050')
