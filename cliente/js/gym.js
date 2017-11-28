@@ -1,3 +1,48 @@
+var ipdomain = 'http://192.168.1.22:5000/';
+
+$(document).ready(function(){
+  $.ajax({
+  url: ipdomain+'sucursales',
+  dataType: 'json',
+  type: 'GET',
+  }).done(function(response) {
+    $.each(response, function(i){
+      var option = $('<option>'+response[i].nombreSucursal+'</option>').attr('value',response[i].idSucursal);
+      $("#sucursales").append(option);
+    });
+    var sucursal =  document.getElementById('sucursales').value;
+    CargarMiembros(sucursal);
+    CargarEmpleados(sucursal);
+  });
+});
+
+$("#sucursales").change(function () {
+    var sucursal =  document.getElementById('sucursales').value;
+    CargarEquipos(sucursal);
+    CargarEmpleados(sucursal);
+});
+///////////////////////////arreglar esto con la query ///////////////////
+function CargarMiembros(sucursal) {
+  $.ajax({
+  url: ipdomain+sucursal+'/miembros',
+  dataType: 'json',
+  type: 'GET',
+  }).done(function(response) {
+  $("#miembros").html("");
+  $.each(response, function(i){
+    var option = $('<option>'+response[i].name+'</option>').attr('value',response[i].);
+    $("#miembros").append(option);
+  });
+});
+}
+
+
+
+
+
+
+
+////////////////////////////////////Codigo del tema de la vista////////////////////////////////////////////
 (function($) {
   "use strict"; // Start of use strict
 

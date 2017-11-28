@@ -11,6 +11,10 @@ body {
     display: inline-block;
   }
 
+.letraModal{
+  color: #000000;
+}
+
 .opcionesPago{
     font-family: 'Saira Extra Condensed', serif;
     margin: auto;

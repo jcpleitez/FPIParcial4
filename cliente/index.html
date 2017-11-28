@@ -91,15 +91,14 @@
           <div class="contenido container">
             <label>Sucursal: </label>
             <select class="form-control selectB" id="sucursales">
-              <option value="Sucursal"></option>
               <!-- option con appendchild-->
             </select>
             <br>
             <label>Miembro: </label>
-            <input id="miembroPago" class="header-input inputs" list="miembros" type="text" placeholder="Buscar miembro..."/>
-            <datalist id="miembros">
-            <!--Los option con appendChild-->
-            </datalist>
+            <select class="form-control selectB" id="miembros">
+              <!-- option con appendchild-->
+            </select>
+            <br>
             <ul class="nav nav-tabs">
               <li class="active"><a class="opcionesPago" data-toggle="tab" href="#home">Matrícula</a></li>
               <li><a class="opcionesPago" data-toggle="tab" href="#menu1">Mensualidad</a></li>
@@ -146,48 +145,52 @@
           <h2 class="mb-5">Miembros:</h2>
         </div>
         <div class="contenido container text-center">
+
           <div class="panel-group" id="accordion">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Miembro1</a>
-        </h4>
-      </div>
-      <div id="collapse1" class="panel-collapse collapse in">
-        <div class="panel-body">
-          <p>Nombre miembro y sus datos bla bla bla</p>
-          <button type="button" class="btn btn-danger">Eliminar</button>
-          <button type="button" class="btn">Inactivo</button>
-        </div>
-      </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Miembro2</a>
-        </h4>
-      </div>
-      <div id="collapse2" class="panel-collapse collapse">
-        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-      </div>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Miembro3</a>
-        </h4>
-      </div>
-      <div id="collapse3" class="panel-collapse collapse">
-        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-      </div>
-    </div>
-  </div>
-</div>
 
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Miembro1</a>
+                </h4>
+              </div>
+              <div id="collapse1" class="panel-collapse collapse in">
+                <div class="panel-body">
+                  <p>Nombre miembro y sus datos bla bla bla</p>
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Eliminar</button>
+                  <button type="button" class="btn" >Inactivo</button>
+                </div>
+              </div>
+            </div>
 
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Miembro2</a>
+                </h4>
+              </div>
+              <div id="collapse2" class="panel-collapse collapse">
+                <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit</div>
+              </div>
+            </div>
+
+          </div>
+          <!-- Modal -->
+          <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title letraModal">Notificacion</h4>
+                </div>
+                <div class="modal-body">
+                  <h5 class="letraModal">Se elimino al miembro</h5>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
