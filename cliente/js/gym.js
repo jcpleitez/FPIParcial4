@@ -1,6 +1,16 @@
-var ipdomain = 'http://192.168.1.22:5000/';
+var ipdomain = 'http://192.168.42.46:5000/';
+
+function verificarCookie(){
+	if(document.cookie.length==0){
+		location.href = "login.html"
+	}else{
+    document.getElementById("idSucursal").innerHTML = document.cookie.split(",")[1];
+	}
+}
+
 
 $(document).ready(function(){
+  verificarCookie();
   $.ajax({
   url: ipdomain+'sucursales',
   dataType: 'json',
@@ -11,30 +21,17 @@ $(document).ready(function(){
       $("#sucursales").append(option);
     });
     var sucursal =  document.getElementById('sucursales').value;
-    CargarMiembros(sucursal);
-    CargarEmpleados(sucursal);
+    //CargarMiembros(sucursal);
+    //CargarEmpleados(sucursal);
   });
 });
 
 $("#sucursales").change(function () {
     var sucursal =  document.getElementById('sucursales').value;
-    CargarEquipos(sucursal);
-    CargarEmpleados(sucursal);
+    //CargarEquipos(sucursal);
+    //CargarEmpleados(sucursal);
 });
 ///////////////////////////arreglar esto con la query ///////////////////
-function CargarMiembros(sucursal) {
-  $.ajax({
-  url: ipdomain+sucursal+'/miembros',
-  dataType: 'json',
-  type: 'GET',
-  }).done(function(response) {
-  $("#miembros").html("");
-  $.each(response, function(i){
-    var option = $('<option>'+response[i].name+'</option>').attr('value',response[i].);
-    $("#miembros").append(option);
-  });
-});
-}
 
 
 

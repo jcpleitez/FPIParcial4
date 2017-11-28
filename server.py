@@ -23,13 +23,13 @@ class SucursalLogin(Resource):
             contra = request.json['contrasenaSucursal']
             user = request.json['userSucursal']
             textQuery = "select * from sucursales where userSucursal =? and contrasenaSucursal=?"
-            print "OK"
             query = conn.execute(textQuery, (user, contra))
             for i in query.cursor: result=dict(zip(tuple (query.keys()) ,i))
+            print "OK JSON POST login in sucursales"
             return jsonify(result)
         except:
             print "Bad JSON POST login in sucursales"
-            status = False
+            status = None
         return status
 
 class Sucursales(Resource):
@@ -235,4 +235,5 @@ api.add_resource(Pagos, '/pagos') # Direccion de pagos
 api.add_resource(PagosID, '/pagos/<idPago>') # Direccion de pagos
 
 if __name__ == '__main__':
-     app.run(host='0.0.0.0',port='5050')
+     app.run(host='0.0.0.0')
+     app.run(port='5002')

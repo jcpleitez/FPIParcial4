@@ -1,16 +1,28 @@
- document.getElementById("login").onsubmit = function(e){
+var ipDomin = "http://192.168.42.46:5000/"
+document.getElementById("login").onsubmit = function(e){
   e.preventDefault(e);
-  var data = {"contrasenaSucursal": document.getElementById("#contraSucursal").value, "userSucursal": document.getElementById("#userSucursal").value};
+  var pas = document.getElementById("contraSucursal").value;
+  var user = document.getElementById("userSucursal").value;
+  var data = {"contrasenaSucursal":pas, "userSucursal":user};
   $.ajax({
-    url        : 'http://192.168.1.22:5000/login',
+    url        : ipDomin+'login',
     dataType   : 'json',
     contentType: 'application/json; charset=UTF-8', // This is the money shot
-    data       : data,
+    data       : JSON.stringify(data),
     type       : 'POST',
-    failure: function(errMsg) {
-            alert(errMsg);
-        }
     }).done(function(response) {
-        alert(response);
+        if (response != null) {
+          var date = new Date();
+          date.setTime(date.getTime() + (180 * 1000));
+		      var expires = "; expires="+date.toGMTString();
+		      document.cookie = "sucursal="+[response.idSucursal,response.nombreSucursal]+expires;
+          alert(document.cookie);
+          location.href = "index.html"
+          console.log("Ha Iniciado: "+response.nombreSucursal);
+        }else {
+          //poner modal aqui despues jejeje, ya vengo ah
+
+          console.log("Ha ocurrido un error jeje");
+        }
       });
-};
+}
