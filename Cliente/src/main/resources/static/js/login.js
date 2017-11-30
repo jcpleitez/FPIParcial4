@@ -1,11 +1,11 @@
-var ipDomin = "http://192.168.0.28:5000/";
+var ipDomain = "http://192.168.0.28:5000/";
 document.getElementById("login").onsubmit = function(e){
   e.preventDefault(e);
   var pas = document.getElementById("contraSucursal").value;
   var user = document.getElementById("userSucursal").value;
   var data = {"contrasenaSucursal":pas, "userSucursal":user};
   $.ajax({
-    url        : ipDomin+'login',
+    url        : ipDomain+'login',
     dataType   : 'json',
     contentType: 'application/json; charset=UTF-8', // This is the money shot
     data       : JSON.stringify(data),

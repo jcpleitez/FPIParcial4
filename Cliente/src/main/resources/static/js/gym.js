@@ -1,4 +1,38 @@
+var ipDomain = "http://192.168.0.28:5000/";
 
+$(document).ready(function(){
+  var sucursalSelect =  document.getElementById('sucursales').value;
+  CargarMiembros(sucursalSelect);
+});
+
+$("#sucursales").change(function () {
+  var sucursalSelect =  document.getElementById('sucursales').value;
+  CargarMiembros(sucursalSelect);
+});
+
+function CargarMiembros(idSucursal) {
+  $.ajax({
+  url: ipDomain+"miembros/sucursal/"+idSucursal,
+  dataType: 'json',
+  type: 'GET',
+  }).done(function(response) {
+    $("#miembros").html("");
+    $.each(response, function(i){
+      var option = $('<option>'+response[i].nombreMiembro+" "+response[i].apellidoMiembro+'</option>').attr('value',response[i].idMiembro);
+      $("#miembros").append(option);
+    });
+  });
+}
+//////////////////////////////////Manejando la cookie/////////////////////////////////////////////////
+function LogOut() {
+	document.cookie = "sucursal=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+}
+function verificarCookie(){
+	if(document.cookie.length==0){
+		location.href = "login";
+	}
+}
+setInterval(function(){verificarCookie()},1000);
 
 ////////////////////////////////////Codigo del tema de la vista////////////////////////////////////////////
 (function($) {
