@@ -1,28 +1,41 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <title>El tío</title>
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/gym.css" rel="stylesheet">
-    <link rel=icon href="img/favicon.png" type="image/png">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/gym.css" rel="stylesheet"/>
+    <link rel="icon" href="../static/img/favicon.png" type="image/png"/>
     <!-- Fuentes -->
-    <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
-    <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="vendor/devicons/css/devicons.min.css" rel="stylesheet">
-    <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:100,200,300,400,500,600,700,800,900" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet"/>
+    <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="vendor/devicons/css/devicons.min.css" rel="stylesheet"/>
+    <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet"/>
   </head>
 
   <body id="page-top">
+  
+  <table>
+		<tbody th:each="miembro : ${lista}">
+			<tr>
+				<td th:text="${miembro.idMiembro}"></td>
+				<td th:text="${miembro.nombreMiembro}"></td>
+				<td th:text="${miembro.apellidoMiembro}"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+  
+
 
     <!-- Menu izquierda -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
       <a class="navbar-brand js-scroll-trigger" >
         <span class="d-block d-lg-none">El tío</span>
         <span class="d-none d-lg-block">
-          <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="img/profile.png" alt="">
+          <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="img/profile.png" alt=""/>
         </span>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,12 +59,12 @@
           <div class="my-auto">
             <div class="divTitulo">
               <h1 class="mb-0">Gimnasio  <span class="text-primary">El Tío</span></h1>
-              <br>
-              <label>Sucursal : </label><label id="nombreSucursal">nombreSucursal</label><br>
+              <br></br>
+              <label>Sucursal : </label><label id="nombreSucursal">nombreSucursal</label><br></br>
               <label>Código : </label><label id="idSucursal">idSucursal</label>
             </div>
             <div class="contenido container">
-              <p class="mb-5">Sistema encargado de los empleados del gimnasio El Tío<br> Nivel jerárgico que maneja la administración de los miembros, incluidos los pagos de matrícula y membresía</p>
+              <p class="mb-5">Sistema encargado de los empleados del gimnasio El Tío<br></br> Nivel jerárgico que maneja la administración de los miembros, incluidos los pagos de matrícula y membresía</p>
             </div>
           </div>
         </div>
@@ -67,9 +80,9 @@
           <div class="contenido container">
             <form  method="post">
               <div class="col-xs-3">
-                <label >Nombre: </label><input class="inputs" type="text" placeholder="Nombre"><br>
-                <label >Apellido: </label><input class="inputs" type="text" placeholder="Apellido"><br>
-                <label >Teléfono: </label><input class="inputs" type="number" placeholder="Teléfono"><br>
+                <label >Nombre: </label><input class="inputs" type="text" placeholder="Nombre"/><br></br>
+                <label >Apellido: </label><input class="inputs" type="text" placeholder="Apellido"/><br></br>
+                <label >Teléfono: </label><input class="inputs" type="number" placeholder="Teléfono"/><br></br>
               </div>
               <p>Al agregar un miembro, luego realizar el pago de la matrícula</p>
             <input type="submit" class="btn btn-success" value="Agregar"/>
@@ -93,12 +106,12 @@
             <select class="form-control selectB" id="sucursales">
               <!-- option con appendchild-->
             </select>
-            <br>
+            <br></br>
             <label>Miembro: </label>
             <select class="form-control selectB" id="miembros">
               <!-- option con appendchild-->
             </select>
-            <br>
+            <br></br>
             <ul class="nav nav-tabs">
               <li class="active"><a class="opcionesPago" data-toggle="tab" href="#home">Matrícula</a></li>
               <li><a class="opcionesPago" data-toggle="tab" href="#menu1">Mensualidad</a></li>
@@ -107,13 +120,13 @@
             <div class="tab-content">
               <div id="home" class="tab-pane fade in active">
                 <form class="" method="post">
-                  <label>Monto: </label><label id="tipoPago">$200</label><br>
+                  <label>Monto: </label><label id="tipoPago">$200</label><br></br>
                   <label>Empleado: </label>
                   <select class="form-control selectB" id="empleados">
                     <option value="Sucursal"></option>
                     <!-- option con appendchild-->
                   </select>
-                  <br><br><br>
+                  <br></br><br></br><br></br>
                   <input type="submit" class="btn btn-success" value="Pagar"/>
                   <button type="button" class="btn btn-danger">Cancelar</button>
                 </form>
@@ -121,13 +134,13 @@
 
               <div id="menu1" class="tab-pane fade">
                 <form class="" method="post">
-                  <label>Monto: </label><label id="tipoPago">$50</label><br>
+                  <label>Monto: </label><label id="tipoPago">$50</label><br></br>
                   <label>Empleado: </label>
                   <select class="form-control selectB" id="empleados">
                     <option value="Sucursal"></option>
                     <!-- option con appendchild-->
                   </select>
-                  <br><br><br>
+                  <br></br><br></br><br></br>
                   <input type="submit" class="btn btn-success" value="Pagar"/>
                   <button type="button" class="btn btn-danger">Cancelar</button>
                 </form>

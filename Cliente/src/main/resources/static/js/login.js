@@ -1,4 +1,4 @@
-var ipDomin = "http://192.168.42.46:5000/"
+var ipDomin = "http://192.168.1.9:5000/";
 document.getElementById("login").onsubmit = function(e){
   e.preventDefault(e);
   var pas = document.getElementById("contraSucursal").value;
@@ -17,7 +17,7 @@ document.getElementById("login").onsubmit = function(e){
 		      var expires = "; expires="+date.toGMTString();
 		      document.cookie = "sucursal="+[response.idSucursal,response.nombreSucursal]+expires;
           alert(document.cookie);
-          location.href = "index.html"
+          location.href = "index";
           console.log("Ha Iniciado: "+response.nombreSucursal);
         }else {
           //poner modal aqui despues jejeje, ya vengo ah

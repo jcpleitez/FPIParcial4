@@ -1,4 +1,4 @@
-var ipdomain = 'http://192.168.42.46:5000/';
+var ipdomain = 'http://192.168.1.9:5000/';
 
 function verificarCookie(){
 	if(document.cookie.length==0){
