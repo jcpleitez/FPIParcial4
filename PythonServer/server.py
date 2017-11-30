@@ -150,6 +150,18 @@ class Empleados(Resource):
 
          return status
 
+class EmpleadosSucursal(Resource):
+    def get(self, idSucursal):
+        conn = db_connect.connect()
+        try:
+            query = conn.execute("select * from empleados where activoEmpleado=1 and idSucursal =%d "  %int(idSucursal))
+            empleados = []
+            for i in query.cursor: empleados.append(dict(zip(tuple (query.keys()) ,i)))
+            print "OK GET  empleados activos por sucursales"
+            return jsonify(empleados)
+        except:
+            return False
+
 class EmpleadosID(Resource):
     def get(self, idEmpleado):
         conn = db_connect.connect()
@@ -228,6 +240,7 @@ api.add_resource(Miembros, '/miembros') # Direccion de miembos
 api.add_resource(MiembrosSucursal, '/miembros/sucursal/<idSucursal>') # Direccion de miembos id
 api.add_resource(MiembrosID, '/miembros/<idMiembro>') # Direccion de miembos id
 api.add_resource(Empleados, '/empleados') # Direccion de empleados
+api.add_resource(EmpleadosSucursal, '/empleados/sucursal/<idSucursal>') # Direccion de miembos id
 api.add_resource(EmpleadosID, '/empleados/<idEmpleado>') # Direccion de empleados id
 api.add_resource(TipoPagos, '/tipoPagos') # Direccion de tipo pago
 api.add_resource(TipoPagosID, '/tipoPagos/<idTipoPago>') # Direccion de tipo pago
