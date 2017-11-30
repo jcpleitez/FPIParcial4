@@ -106,7 +106,7 @@ class MiembrosSucursal(Resource):
             query = conn.execute("select * from miembros where activoMiembro=1 and idSucursal =%d "  %int(idSucursal))
             miembros = []
             for i in query.cursor: miembros.append(dict(zip(tuple (query.keys()) ,i)))
-            print "OK GET  miebros activos por sucursales"
+            print "OK GET  miembros activos por sucursales"
             return jsonify(miembros)
         except:
             return False
@@ -226,6 +226,21 @@ class Pagos(Resource):
 
          return status
 
+class PagosMiembro(Resource):
+    def get(self, idMiembro):
+        conn = db_connect.connect() # connect to database
+        try:
+            queryM = conn.execute("select * from miembros where idMiembro =%d "  %int(idMiembro))
+            idM = queryM.fetchone()[0]
+            query = conn.execute("select * from pagos where idMiembro =%d "  %int(idMiembro))
+            result = [dict(zip(tuple (query.keys()) ,i)) for i in query.cursor]
+            print "Get pagos del miembro"
+            return jsonify(result)
+        except:
+            print "No existe miembro"
+            return None
+
+
 class PagosID(Resource):
     def get(self, idPago):
         conn = db_connect.connect()
@@ -245,8 +260,9 @@ api.add_resource(EmpleadosID, '/empleados/<idEmpleado>') # Direccion de empleado
 api.add_resource(TipoPagos, '/tipoPagos') # Direccion de tipo pago
 api.add_resource(TipoPagosID, '/tipoPagos/<idTipoPago>') # Direccion de tipo pago
 api.add_resource(Pagos, '/pagos') # Direccion de pagos
+api.add_resource(PagosMiembro, '/pagos/miembro/<idMiembro>') # Direccion de pagos
 api.add_resource(PagosID, '/pagos/<idPago>') # Direccion de pagos
 
 if __name__ == '__main__':
      app.run(host='0.0.0.0')
-     app.run(port='5002')
+     app.run(port='5000')
