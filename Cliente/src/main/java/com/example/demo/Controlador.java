@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class Controlador {
@@ -13,11 +12,13 @@ public class Controlador {
 	RestService rest;
 	
 	@GetMapping("/index")
-	public String getAll(ModelMap model, @CookieValue("sucursal") String sucursal) {
+	public String getAll(ModelMap model, @CookieValue(value="sucursal",required = false) String sucursal) {
+		if (sucursal==null) {
+			return "login";
+		}
 		int idSucursal = Integer.parseInt(sucursal);
 		model.addAttribute("sucursal",rest.getSucursal(idSucursal));
 		model.addAttribute("listaMiembros",rest.getMiembrosSucusal(idSucursal));
-		System.out.println("Mi Cookie es :"+sucursal);
 		return "index";
 	}
 

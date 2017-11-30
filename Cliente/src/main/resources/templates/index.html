@@ -17,19 +17,7 @@
 
   <body id="page-top">
   
-  <table>
-		<tbody th:each="miembro : ${lista}">
-			<tr>
-				<td th:text="${miembro.idMiembro}"></td>
-				<td th:text="${miembro.nombreMiembro}"></td>
-				<td th:text="${miembro.apellidoMiembro}"></td>
-			</tr>
-		</tbody>
-	</table>
-	
   
-
-
     <!-- Menu izquierda -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
       <a class="navbar-brand js-scroll-trigger" >
@@ -159,14 +147,16 @@
         </div>
         <div class="contenido container text-center">
 
-          <div class="panel-group" id="accordion">
-
+          <div class="panel-group" id="accordion" th:each="miembro : ${listaMiembros}">
+          
+					
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h4 class="panel-title">
-                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Miembro1</a>
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" th:text="${miembro.nombreMiembro}"></a>
                 </h4>
               </div>
+              
               <div id="collapse1" class="panel-collapse collapse in">
                 <div class="panel-body">
                   <p>Nombre miembro y sus datos bla bla bla</p>
@@ -176,17 +166,7 @@
               </div>
             </div>
 
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Miembro2</a>
-                </h4>
-              </div>
-              <div id="collapse2" class="panel-collapse collapse">
-                <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit</div>
-              </div>
-            </div>
-
+            
           </div>
           <!-- Modal -->
           <div class="modal fade" id="myModal" role="dialog">

@@ -14,9 +14,8 @@ document.getElementById("login").onsubmit = function(e){
         if (response != null) {
           var date = new Date();
           date.setTime(date.getTime() + (180 * 1000));
-		      var expires = "; expires="+date.toGMTString();
-		      document.cookie = "sucursal="+response.idSucursal+expires;
-          alert(document.cookie);
+		  var expires = "; expires="+date.toGMTString();
+		  document.cookie = "sucursal="+response.idSucursal+expires;
           location.href = "index";
           console.log("Ha Iniciado: "+response.nombreSucursal);
         }else {
