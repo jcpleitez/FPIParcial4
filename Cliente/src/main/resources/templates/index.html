@@ -92,12 +92,12 @@
           <div class="contenido container">
             <label>Sucursal: </label>
             <select class="form-control selectB" id="sucursales">
-              <!-- option con appendchild-->
+              <option th:each="sucursales : ${listaSucursales}" th:text="${sucursales.nombreSucursal}" th:value="${sucursales.idSucursal}" ></option>
             </select>
             <br></br>
             <label>Miembro: </label>
             <select class="form-control selectB" id="miembros">
-              <!-- option con appendchild-->
+				<option th:each="miembro : ${listaMiembros}" th:text="${miembro.nombreMiembro}" th:value="${miembro.idMiembro}" ></option>
             </select>
             <br></br>
             <ul class="nav nav-tabs">
@@ -108,13 +108,12 @@
             <div class="tab-content">
               <div id="home" class="tab-pane fade in active">
                 <form class="" method="post">
-                  <label>Monto: </label><label id="tipoPago">$200</label><br></br>
+                  <label>Monto: $</label><label id="tipoPago" th:text="${tipoPagos[0].precioTipoPago}"></label><br></br>
                   <label>Empleado: </label>
                   <select class="form-control selectB" id="empleados">
-                    <option value="Sucursal"></option>
-                    <!-- option con appendchild-->
-                  </select>
-                  <br></br><br></br><br></br>
+                	<option th:each="empleado : ${listaEmpleados}" th:text="${empleado.nombreEmpleado}" th:value="${empleado.idEmpleado}" ></option>
+            	  </select>
+            	  <br></br><br></br><br></br>
                   <input type="submit" class="btn btn-success" value="Pagar"/>
                   <button type="button" class="btn btn-danger">Cancelar</button>
                 </form>
@@ -122,12 +121,11 @@
 
               <div id="menu1" class="tab-pane fade">
                 <form class="" method="post">
-                  <label>Monto: </label><label id="tipoPago">$50</label><br></br>
+                  <label>Monto: $</label><label th:text="${tipoPagos[1].precioTipoPago}" id="tipoPago"/><br></br>
                   <label>Empleado: </label>
                   <select class="form-control selectB" id="empleados">
-                    <option value="Sucursal"></option>
-                    <!-- option con appendchild-->
-                  </select>
+               		 <option th:each="empleado : ${listaEmpleados}" th:text="${empleado.nombreEmpleado}" th:value="${empleado.idEmpleado}" ></option>
+          		  </select>
                   <br></br><br></br><br></br>
                   <input type="submit" class="btn btn-success" value="Pagar"/>
                   <button type="button" class="btn btn-danger">Cancelar</button>

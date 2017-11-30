@@ -19,6 +19,9 @@ public class Controlador {
 		int idSucursal = Integer.parseInt(sucursal);
 		model.addAttribute("sucursal",rest.getSucursal(idSucursal));
 		model.addAttribute("listaMiembros",rest.getMiembrosSucusal(idSucursal));
+		model.addAttribute("listaSucursales",rest.getAllSucusales());
+		model.addAttribute("listaEmpleados",rest.getEmpleados(idSucursal));
+		model.addAttribute("tipoPagos",rest.getTipoPago());
 		return "index";
 	}
 

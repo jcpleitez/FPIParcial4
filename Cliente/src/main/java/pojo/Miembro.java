@@ -1,5 +1,4 @@
-package com.example.demo;
-
+package pojo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -73,10 +72,5 @@ public class Miembro {
 	public void setTelefonoMiembro(int telefonoMiembro) {
 		this.telefonoMiembro = telefonoMiembro;
 	}
-	
-	
-	
-	
-	
 	
 }
