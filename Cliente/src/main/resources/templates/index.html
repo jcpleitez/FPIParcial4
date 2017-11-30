@@ -6,7 +6,7 @@
     <title>El tío</title>
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="css/gym.css" rel="stylesheet"/>
-    <link rel="icon" href="../static/img/favicon.png" type="image/png"/>
+    <link rel="icon" href="img/favicon.png" type="image/png"/>
     <!-- Fuentes -->
     <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:100,200,300,400,500,600,700,800,900" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet"/>
@@ -16,18 +16,6 @@
   </head>
 
   <body id="page-top">
-  
-  <table>
-		<tbody th:each="miembro : ${lista}">
-			<tr>
-				<td th:text="${miembro.idMiembro}"></td>
-				<td th:text="${miembro.nombreMiembro}"></td>
-				<td th:text="${miembro.apellidoMiembro}"></td>
-			</tr>
-		</tbody>
-	</table>
-	
-  
 
 
     <!-- Menu izquierda -->
@@ -60,11 +48,12 @@
             <div class="divTitulo">
               <h1 class="mb-0">Gimnasio  <span class="text-primary">El Tío</span></h1>
               <br></br>
-              <label>Sucursal : </label><label id="nombreSucursal">nombreSucursal</label><br></br>
-              <label>Código : </label><label id="idSucursal">idSucursal</label>
+              <label>Sucursal : </label><label id="nombreSucursal" th:text="${sucursal.nombreSucursal}"/><br></br>
+              <label>Código : </label><label id="idSucursal" th:text="${sucursal.idSucursal}"/>
             </div>
             <div class="contenido container">
               <p class="mb-5">Sistema encargado de los empleados del gimnasio El Tío<br></br> Nivel jerárgico que maneja la administración de los miembros, incluidos los pagos de matrícula y membresía</p>
+              <button type="button" class="btn btn-danger" onclick="LogOut()">Cerrar Sesión</button>
             </div>
           </div>
         </div>
@@ -104,12 +93,12 @@
           <div class="contenido container">
             <label>Sucursal: </label>
             <select class="form-control selectB" id="sucursales">
-              <!-- option con appendchild-->
+              <option th:each="sucursales : ${listaSucursales}" th:text="${sucursales.nombreSucursal}" th:value="${sucursales.idSucursal}" ></option>
             </select>
             <br></br>
             <label>Miembro: </label>
             <select class="form-control selectB" id="miembros">
-              <!-- option con appendchild-->
+              <!-- Option con apendChild -->
             </select>
             <br></br>
             <ul class="nav nav-tabs">
@@ -120,13 +109,12 @@
             <div class="tab-content">
               <div id="home" class="tab-pane fade in active">
                 <form class="" method="post">
-                  <label>Monto: </label><label id="tipoPago">$200</label><br></br>
+                  <label>Monto: $</label><label id="tipoPago" th:text="${tipoPagos[0].precioTipoPago}"></label><br></br>
                   <label>Empleado: </label>
                   <select class="form-control selectB" id="empleados">
-                    <option value="Sucursal"></option>
-                    <!-- option con appendchild-->
-                  </select>
-                  <br></br><br></br><br></br>
+                	<option th:each="empleado : ${listaEmpleados}" th:text="${empleado.nombreEmpleado}" th:value="${empleado.idEmpleado}" ></option>
+            	  </select>
+            	  <br></br><br></br><br></br>
                   <input type="submit" class="btn btn-success" value="Pagar"/>
                   <button type="button" class="btn btn-danger">Cancelar</button>
                 </form>
@@ -134,12 +122,11 @@
 
               <div id="menu1" class="tab-pane fade">
                 <form class="" method="post">
-                  <label>Monto: </label><label id="tipoPago">$50</label><br></br>
+                  <label>Monto: $</label><label th:text="${tipoPagos[1].precioTipoPago}" id="tipoPago"/><br></br>
                   <label>Empleado: </label>
                   <select class="form-control selectB" id="empleados">
-                    <option value="Sucursal"></option>
-                    <!-- option con appendchild-->
-                  </select>
+               		 <option th:each="empleado : ${listaEmpleados}" th:text="${empleado.nombreEmpleado}" th:value="${empleado.idEmpleado}" ></option>
+          		  </select>
                   <br></br><br></br><br></br>
                   <input type="submit" class="btn btn-success" value="Pagar"/>
                   <button type="button" class="btn btn-danger">Cancelar</button>
@@ -161,31 +148,23 @@
 
           <div class="panel-group" id="accordion">
 
-            <div class="panel panel-default">
+
+            <div class="panel panel-default" th:each="miembro : ${listaMiembros}">
               <div class="panel-heading">
                 <h4 class="panel-title">
-                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Miembro1</a>
+                  <a data-toggle="collapse" data-parent="#accordion" th:href="'#collapse' + ${miembro.idMiembro}" th:text="${miembro.nombreMiembro+' '+miembro.apellidoMiembro}"></a>
                 </h4>
               </div>
-              <div id="collapse1" class="panel-collapse collapse in">
+
+              <div th:id="'collapse' + ${miembro.idMiembro}" class="panel-collapse collapse in">
                 <div class="panel-body">
-                  <p>Nombre miembro y sus datos bla bla bla</p>
-                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Eliminar</button>
-                  <button type="button" class="btn" >Inactivo</button>
+                  <h6>Teléfono: </h6><h6 th:text="${miembro.telefonoMiembro}"/>
+                  <!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Eliminar</button> -->
+                  <button type="button" class="btn" data-toggle="modal" data-target="#myModal">Marcar inactivo</button>
                 </div>
               </div>
             </div>
 
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Miembro2</a>
-                </h4>
-              </div>
-              <div id="collapse2" class="panel-collapse collapse">
-                <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit</div>
-              </div>
-            </div>
 
           </div>
           <!-- Modal -->
@@ -196,7 +175,7 @@
                   <h4 class="modal-title letraModal">Notificacion</h4>
                 </div>
                 <div class="modal-body">
-                  <h5 class="letraModal">Se elimino al miembro</h5>
+                  <h5 class="letraModal">Miembro marcado como inactivo</h5>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

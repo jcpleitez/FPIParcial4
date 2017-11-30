@@ -1,43 +1,38 @@
-var ipdomain = 'http://192.168.1.9:5000/';
-
-function verificarCookie(){
-	if(document.cookie.length==0){
-		location.href = "login.html"
-	}else{
-    document.getElementById("idSucursal").innerHTML = document.cookie.split(",")[1];
-	}
-}
-
+var ipDomain = "http://192.168.0.28:5000/";
 
 $(document).ready(function(){
-  verificarCookie();
-  $.ajax({
-  url: ipdomain+'sucursales',
-  dataType: 'json',
-  type: 'GET',
-  }).done(function(response) {
-    $.each(response, function(i){
-      var option = $('<option>'+response[i].nombreSucursal+'</option>').attr('value',response[i].idSucursal);
-      $("#sucursales").append(option);
-    });
-    var sucursal =  document.getElementById('sucursales').value;
-    //CargarMiembros(sucursal);
-    //CargarEmpleados(sucursal);
-  });
+  var sucursalSelect =  document.getElementById('sucursales').value;
+  CargarMiembros(sucursalSelect);
 });
 
 $("#sucursales").change(function () {
-    var sucursal =  document.getElementById('sucursales').value;
-    //CargarEquipos(sucursal);
-    //CargarEmpleados(sucursal);
+  var sucursalSelect =  document.getElementById('sucursales').value;
+  CargarMiembros(sucursalSelect);
 });
-///////////////////////////arreglar esto con la query ///////////////////
 
-
-
-
-
-
+function CargarMiembros(idSucursal) {
+  $.ajax({
+  url: ipDomain+"miembros/sucursal/"+idSucursal,
+  dataType: 'json',
+  type: 'GET',
+  }).done(function(response) {
+    $("#miembros").html("");
+    $.each(response, function(i){
+      var option = $('<option>'+response[i].nombreMiembro+" "+response[i].apellidoMiembro+'</option>').attr('value',response[i].idMiembro);
+      $("#miembros").append(option);
+    });
+  });
+}
+//////////////////////////////////Manejando la cookie/////////////////////////////////////////////////
+function LogOut() {
+	document.cookie = "sucursal=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+}
+function verificarCookie(){
+	if(document.cookie.length==0){
+		location.href = "login";
+	}
+}
+setInterval(function(){verificarCookie()},1000);
 
 ////////////////////////////////////Codigo del tema de la vista////////////////////////////////////////////
 (function($) {
