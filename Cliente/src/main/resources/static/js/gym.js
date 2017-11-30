@@ -1,10 +1,10 @@
-var ipdomain = 'http://192.168.1.9:5000/';
+var ipdomain = 'http://192.168.0.28:5000/';
 
 function verificarCookie(){
 	if(document.cookie.length==0){
 		location.href = "login.html"
 	}else{
-    document.getElementById("idSucursal").innerHTML = document.cookie.split(",")[1];
+    
 	}
 }
 

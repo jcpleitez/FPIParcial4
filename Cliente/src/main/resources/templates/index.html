@@ -6,7 +6,7 @@
     <title>El tío</title>
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="css/gym.css" rel="stylesheet"/>
-    <link rel="icon" href="../static/img/favicon.png" type="image/png"/>
+    <link rel="icon" href="img/favicon.png" type="image/png"/>
     <!-- Fuentes -->
     <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:100,200,300,400,500,600,700,800,900" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet"/>
@@ -60,8 +60,8 @@
             <div class="divTitulo">
               <h1 class="mb-0">Gimnasio  <span class="text-primary">El Tío</span></h1>
               <br></br>
-              <label>Sucursal : </label><label id="nombreSucursal">nombreSucursal</label><br></br>
-              <label>Código : </label><label id="idSucursal">idSucursal</label>
+              <label>Sucursal : </label><label id="nombreSucursal" th:text="${sucursal.nombreSucursal}"/><br></br>
+              <label>Código : </label><label id="idSucursal" th:text="${sucursal.idSucursal}"/>
             </div>
             <div class="contenido container">
               <p class="mb-5">Sistema encargado de los empleados del gimnasio El Tío<br></br> Nivel jerárgico que maneja la administración de los miembros, incluidos los pagos de matrícula y membresía</p>

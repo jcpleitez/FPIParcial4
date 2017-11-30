@@ -13,8 +13,10 @@ public class Controlador {
 	RestService rest;
 	
 	@GetMapping("/index")
-	public String getAllBrands(ModelMap model, @CookieValue("sucursal") String sucursal) {
-		//model.addAttribute("lista",rest.getAllMiembros());
+	public String getAll(ModelMap model, @CookieValue("sucursal") String sucursal) {
+		int idSucursal = Integer.parseInt(sucursal);
+		model.addAttribute("sucursal",rest.getSucursal(idSucursal));
+		model.addAttribute("listaMiembros",rest.getMiembrosSucusal(idSucursal));
 		System.out.println("Mi Cookie es :"+sucursal);
 		return "index";
 	}

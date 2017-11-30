@@ -20,8 +20,12 @@ public class RestService {
 		restService = new RestTemplate();
 	}
 	
-	public ArrayList<Miembro> getAllMiembros() {
-		System.out.println(Arrays.asList(restService.getForObject(apiUrl+"miembros", Miembro[].class)));
-		return new ArrayList<Miembro>(Arrays.asList(restService.getForObject(apiUrl+"miembros", Miembro[].class)));
+	public ArrayList<Miembro> getMiembrosSucusal(int idSucursal) {
+		return new ArrayList<Miembro>(Arrays.asList(restService.getForObject(apiUrl+"miembros/sucursal/"+idSucursal, Miembro[].class)));
+	}
+	
+	public Sucursal getSucursal(int idSucursal) {
+		
+		return  restService.getForObject(apiUrl+"sucursales/"+idSucursal, Sucursal.class);
 	}
 }
