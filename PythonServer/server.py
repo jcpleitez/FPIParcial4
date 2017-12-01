@@ -214,12 +214,25 @@ class Pagos(Resource):
              fecha = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
              #Verificar que no existes un pago igual idPago
              idP = request.json['idPago']
+             #Contarlos para validar que no tenga una matricula
+             queryCantidadPagos = conn.execute("select count(idPago) from pagos where idTipoPago=1 and idMiembro=%d "  %int(idM))
+             cantidaPagos = queryCantidadPagos.fetchone()[0]
 
-             #print idP
-             textInsert = "insert into pagos(idTipoPago, idMiembro, idEmpleado, idSucursal, datePago) VALUES(?,?,?,?,?)"
-             query = conn.execute(textInsert, (idTP, idM, idE, idS, fecha))
-             print "OK new POST in pagos"
-             status = True
+             if idTP==1:
+                 if cantidaPagos==0:
+                     textInsert = "insert into pagos(idTipoPago, idMiembro, idEmpleado, idSucursal, datePago) VALUES(?,?,?,?,?)"
+                     query = conn.execute(textInsert, (idTP, idM, idE, idS, fecha))
+                     print "OK new POST Mensualidad in pagos"
+                     status = True
+                 else:
+                     print "Miembro ya tiene matricula"
+                     status = False
+             else:
+                 textInsert = "insert into pagos(idTipoPago, idMiembro, idEmpleado, idSucursal, datePago) VALUES(?,?,?,?,?)"
+                 query = conn.execute(textInsert, (idTP, idM, idE, idS, fecha))
+                 print "OK new POST Mensualidad in pagos"
+                 status = True
+
          except:
              print "Bad JSON POST in pagos"
              status = False
