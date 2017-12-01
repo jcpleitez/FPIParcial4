@@ -261,12 +261,35 @@ class PagosID(Resource):
         for i in query.cursor: result=dict(zip(tuple (query.keys()) ,i))
         return jsonify(result)
 
+class MiembroEnabled(Resource):
+    def post(self):
+         conn = db_connect.connect()
+         try:
+             #Verificar Miembro
+             idM = request.json['idMiembro']
+             queryM = conn.execute("select * from miembros where idMiembro =%d" %int(idM))
+             idM = queryM.fetchone()[0]
+             activo = request.json['activoMiembro']
+             if activo>0:
+                 activo = 1
+             textEnable = "update miembros set activoMiembro=? where idMiembro =%d " %int(idM)
+             query = conn.execute(textEnable, activo)
+             print "OK se ha edito el estado de activo del miembro"
+             status = True
+         except:
+             print "Bad JSON POST in Soft-Delete"
+             status = False
+
+         return status
+
+
 api.add_resource(SucursalLogin, '/login') # Direccion sucursales
 api.add_resource(Sucursales, '/sucursales') # Direccion sucursales
 api.add_resource(SucursalesID, '/sucursales/<idSucursal>') # Direccion de sucursal id
 api.add_resource(Miembros, '/miembros') # Direccion de miembos
 api.add_resource(MiembrosSucursal, '/miembros/sucursal/<idSucursal>') # Direccion de miembos id
 api.add_resource(MiembrosID, '/miembros/<idMiembro>') # Direccion de miembos id
+api.add_resource(MiembroEnabled, '/miembros/estado') # Direccion de miembos id
 api.add_resource(Empleados, '/empleados') # Direccion de empleados
 api.add_resource(EmpleadosSucursal, '/empleados/sucursal/<idSucursal>') # Direccion de miembos id
 api.add_resource(EmpleadosID, '/empleados/<idEmpleado>') # Direccion de empleados id
