@@ -70,9 +70,9 @@
           <div class="contenido container">
             <form  method="post" id="addMember">
               <div class="col-xs-3">
-                <label >Nombre: </label><input id="addMemberName" class="inputs" type="text" placeholder="Nombre"/><br></br>
-                <label >Apellido: </label><input id="addMemberLastName" class="inputs" type="text" placeholder="Apellido"/><br></br>
-                <label >Teléfono: </label><input id="addMemberPhone" class="inputs" type="number" placeholder="Teléfono"/><br></br>
+                <label >Nombre: </label><input maxlength="25" id="addMemberName" class="inputs" type="text" placeholder="Nombre" required="true"/><br></br>
+                <label >Apellido: </label><input maxlength="25" id="addMemberLastName" class="inputs" type="text" placeholder="Apellido" required="true" /><br></br>
+                <label >Teléfono: </label><input pattern="\d*" maxlength="8" id="addMemberPhone" class="inputs" type="text" placeholder="Teléfono" required="true" /><br></br>
               </div>
               <p>Al agregar un miembro, luego realizar el pago de la matrícula</p>
             <input type="submit" class="btn btn-success" value="Agregar"/>
@@ -113,7 +113,7 @@
                   <label>Monto: $</label><label id="tipoPago" th:text="${tipoPagos[0].precioTipoPago}"></label><br></br>
                   <label>Empleado: </label>
                   <select class="form-control selectB" id="empleados">
-                	<option th:each="empleado : ${listaEmpleados}" th:text="${empleado.nombreEmpleado}" th:value="${empleado.idEmpleado}" ></option>
+                	<option th:each="empleado : ${listaEmpleados}" th:text="${empleado.nombreEmpleado+' '+empleado.apellidoEmpleado}" th:value="${empleado.idEmpleado}" ></option>
             	  </select>
             	  <br></br><br></br><br></br>
                   <input type="submit" class="btn btn-success" value="Pagar"/>
@@ -126,7 +126,7 @@
                   <label>Monto: $</label><label th:text="${tipoPagos[1].precioTipoPago}" id="tipoPago"/><br></br>
                   <label>Empleado: </label>
                   <select class="form-control selectB" id="empleados">
-               		 <option th:each="empleado : ${listaEmpleados}" th:text="${empleado.nombreEmpleado}" th:value="${empleado.idEmpleado}" ></option>
+               		 <option th:each="empleado : ${listaEmpleados}" th:text="${empleado.nombreEmpleado+' '+empleado.apellidoEmpleado}" th:value="${empleado.idEmpleado}" ></option>
           		  </select>
                   <br></br><br></br><br></br>
                   <input type="submit" class="btn btn-success" value="Pagar"/>
@@ -187,6 +187,7 @@
                         <th>Apellido</th>
                         <th>Sucursal</th>
                         <th>Tipo Pago</th>
+                        <th>Monto</th>
                         <th>Empleado</th>
                         <th>Fecha</th>
                       </tr>

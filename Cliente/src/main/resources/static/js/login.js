@@ -1,4 +1,4 @@
-var ipDomain = "http://192.168.1.9:5000/";
+var ipDomain = "http://192.168.43.46:5000/";
 
 function verificarCookie(){
 	if(document.cookie.length!==0){
@@ -21,7 +21,7 @@ document.getElementById("login").onsubmit = function(e){
     }).done(function(response) {
         if (response != null) {
           var date = new Date();
-          date.setTime(date.getTime() + (180 * 1000));
+          date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
 		      var expires = "; expires="+date.toGMTString();
 		      document.cookie = "sucursal="+response.idSucursal+expires;
           new PNotify({

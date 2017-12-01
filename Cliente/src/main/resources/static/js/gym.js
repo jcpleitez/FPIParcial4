@@ -1,4 +1,4 @@
-var ipDomain = "http://192.168.1.9:5000/";
+var ipDomain = "http://192.168.43.46:5000/";
 
 $(document).ready(function(){
   var sucursalSelect =  document.getElementById('sucursales').value;
@@ -91,23 +91,32 @@ document.getElementById("pagoMatricula").onsubmit = function(e){
   $.ajax({
     url        : ipDomain+'pagos',
     dataType   : 'json',
-    contentType: 'application/json; charset=UTF-8', // This is the money shot
+    contentType: 'application/json; charset=UTF-8',
     data       : JSON.stringify(data),
     type       : 'POST',
     }).done(function(response) {
+      if (response != null) {
         if (response) {
           new PNotify({
             title: 'Éxito',
             text: 'Se ha pagado la matrícula con exito',
             type: 'success'
           });
-        }else {
+
+        }else{
           new PNotify({
-            title: 'Oh No!',
-            text: 'Ha ocurrido un error al pagar',
+            title: 'Error',
+            text: 'Ya hay registrado un pago de matrícula para este usuario',
             type: 'error'
           });
         }
+      }else {
+        new PNotify({
+          title: 'Oh No!',
+          text: 'Ha ocurrido un error al intentar pagar',
+          type: 'error'
+        });
+      }
       });
 }
 ///////////////////////////////////POST para pagos Mensualidad//////////////////////////////////////
@@ -125,19 +134,28 @@ document.getElementById("pagoMensualidad").onsubmit = function(e){
     data       : JSON.stringify(data),
     type       : 'POST',
     }).done(function(response) {
-        if (response) {
-          new PNotify({
-            title: 'Éxito',
-            text: 'Se ha pagado la mensualidad con exito',
-            type: 'success'
-          });
-        }else {
-          new PNotify({
-            title: 'Oh No!',
-            text: 'Ha ocurrido un error al pagar',
-            type: 'error'
-          });
-        }
+    	if(response != null){
+            if (response) {
+                new PNotify({
+                  title: 'Éxito',
+                  text: 'Se ha pagado la mensualidad con exito',
+                  type: 'success'
+                });
+              }else {
+                new PNotify({
+                  title: 'Error',
+                  text: 'El pago ya esta registrado previamente',
+                  type: 'error'
+                });
+              }
+    	}else{
+            new PNotify({
+                title: 'Oh No!',
+                text: 'Ha ocurrido un error al intentar pagar',
+                type: 'error'
+              });
+    	}
+
       });
 }
 ////////////////////////////////////////Modal para ver pagos///////////////////////////////////////////////////
@@ -149,6 +167,7 @@ function ActivarModal(idMiembro){
 	var apellido;
 	var sucursal;
 	var empleado;
+  var monto;
 	var tipoPago;
   $.ajax({
   url: ipDomain+"pagos/miembro/"+idMiembro,
@@ -182,9 +201,10 @@ function ActivarModal(idMiembro){
                   type: 'GET',
                   }).done(function(response4) {
                       tipoPago=response4.nombreTipoPago;
+                      monto = "$ "+response4.precioTipoPago;
                 	  codigo=response[i].idPago;
-                      fecha=response[i].datePago;
-                      var tr = $('<tr><td>'+codigo+'</td><td>'+nombre+'</td><td>'+apellido+'</td><td>'+sucursal+'</td><td>'+tipoPago+'</td><td>'+empleado+'</td><td>'+fecha+'</td></tr>');
+                      fecha= response[i].datePago.split("T");
+                      var tr = $('<tr><td>'+codigo+'</td><td>'+nombre+'</td><td>'+apellido+'</td><td>'+sucursal+'</td><td>'+tipoPago+'</td><td>'+monto+'</td><td>'+empleado+'</td><td>'+fecha[0]+' '+fecha[1]+'</td></tr>');
                       $("#valoresTabla").append(tr);
                   });
               });
