@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <title>El tío</title>
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="vendor/notificacion/pnotify.custom.min.css" rel="stylesheet"/>
     <link href="css/gym.css" rel="stylesheet"/>
     <link rel="icon" href="img/favicon.png" type="image/png"/>
     <!-- Fuentes -->
@@ -67,15 +68,15 @@
             <h2 class="mb-5">Agregar miembro</h2>
           </div>
           <div class="contenido container">
-            <form  method="post">
+            <form  method="post" id="addMember">
               <div class="col-xs-3">
-                <label >Nombre: </label><input class="inputs" type="text" placeholder="Nombre"/><br></br>
-                <label >Apellido: </label><input class="inputs" type="text" placeholder="Apellido"/><br></br>
-                <label >Teléfono: </label><input class="inputs" type="number" placeholder="Teléfono"/><br></br>
+                <label >Nombre: </label><input id="addMemberName" class="inputs" type="text" placeholder="Nombre"/><br></br>
+                <label >Apellido: </label><input id="addMemberLastName" class="inputs" type="text" placeholder="Apellido"/><br></br>
+                <label >Teléfono: </label><input id="addMemberPhone" class="inputs" type="number" placeholder="Teléfono"/><br></br>
               </div>
               <p>Al agregar un miembro, luego realizar el pago de la matrícula</p>
             <input type="submit" class="btn btn-success" value="Agregar"/>
-            <button type="button" class="btn btn-danger">Cancelar</button>
+            <input type="reset" class="btn btn-danger" value="Cancelar"/>
           </form>
         </div>
       </div>
@@ -108,7 +109,7 @@
 
             <div class="tab-content">
               <div id="home" class="tab-pane fade in active">
-                <form class="" method="post">
+                <form id="pagoMatricula" class="" method="post">
                   <label>Monto: $</label><label id="tipoPago" th:text="${tipoPagos[0].precioTipoPago}"></label><br></br>
                   <label>Empleado: </label>
                   <select class="form-control selectB" id="empleados">
@@ -116,12 +117,12 @@
             	  </select>
             	  <br></br><br></br><br></br>
                   <input type="submit" class="btn btn-success" value="Pagar"/>
-                  <button type="button" class="btn btn-danger">Cancelar</button>
+                  <input type="reset" class="btn btn-danger" value="Cancelar"/>
                 </form>
               </div>
 
               <div id="menu1" class="tab-pane fade">
-                <form class="" method="post">
+                <form id="pagoMensualidad" class="" method="post">
                   <label>Monto: $</label><label th:text="${tipoPagos[1].precioTipoPago}" id="tipoPago"/><br></br>
                   <label>Empleado: </label>
                   <select class="form-control selectB" id="empleados">
@@ -129,7 +130,7 @@
           		  </select>
                   <br></br><br></br><br></br>
                   <input type="submit" class="btn btn-success" value="Pagar"/>
-                  <button type="button" class="btn btn-danger">Cancelar</button>
+                  <input type="reset" class="btn btn-danger" value="Cancelar"/>
                 </form>
               </div>
             </div>
@@ -144,52 +145,84 @@
         <div class="divTitulo">
           <h2 class="mb-5">Miembros:</h2>
         </div>
-        <div class="contenido container text-center">
+
+        <div class="contenidoMiembros container text-center">
 
           <div class="panel-group" id="accordion">
 
 
             <div class="panel panel-default" th:each="miembro : ${listaMiembros}">
               <div class="panel-heading">
-                <h4 class="panel-title">
+                <h3 class="panel-title">
                   <a data-toggle="collapse" data-parent="#accordion" th:href="'#collapse' + ${miembro.idMiembro}" th:text="${miembro.nombreMiembro+' '+miembro.apellidoMiembro}"></a>
-                </h4>
+                </h3>
               </div>
 
               <div th:id="'collapse' + ${miembro.idMiembro}" class="panel-collapse collapse in">
-                <div class="panel-body">
-                  <h6>Teléfono: </h6><h6 th:text="${miembro.telefonoMiembro}"/>
-                  <!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Eliminar</button> -->
-                  <button type="button" class="btn" data-toggle="modal" data-target="#myModal">Marcar inactivo</button>
+                <div class="panel-body fondo-panel">
+                  <h3 th:text="${'Teléfono: '+miembro.telefonoMiembro}"/>
+                  <button type="button" class="btn btn-info" th:onclick="'ActivarModal(\'' + ${miembro.idMiembro} + '\');'">Ver Pagos</button>
+                  <button type="button" class="btn" onclick="Inactivo()">Inactivo</button>
                 </div>
               </div>
             </div>
-
-
           </div>
-          <!-- Modal -->
-          <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog modal-sm">
+          <!-- Modal para ver pagos-->
+          <div class="modal fade" id="myModalPagos" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+              <!-- Modal content-->
               <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title letraModal">Notificacion</h4>
+
+                <div class="modal-header" style="padding:35px 50px;">
+                  <h4 class="letraPagos">Pagos</h4>
                 </div>
-                <div class="modal-body">
-                  <h5 class="letraModal">Miembro marcado como inactivo</h5>
+
+                <div class="modal-body modal-limite">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Sucursal</th>
+                        <th>Tipo Pago</th>
+                        <th>Empleado</th>
+                        <th>Fecha</th>
+                      </tr>
+                    </thead>
+                    <tbody id="valoresTabla">
+                      <tr>
+                        <td>1</td>
+                        <td>Diana Melissa</td>
+                        <td>Maga;a Batres</td>
+                        <td>El tio Santa Ana</td>
+                        <td>Mensualidad</td>
+                        <td>Kevin Rojas</td>
+                        <td>hoy</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
+
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-danger btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
+
               </div>
+
             </div>
           </div>
+
         </div>
       </div>
     </section>
+
   </div>
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="vendor/notificacion/pnotify.custom.min.js"></script>
   <script src="js/gym.js"></script>
   </body>
 </html>

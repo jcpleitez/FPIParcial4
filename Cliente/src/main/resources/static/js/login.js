@@ -1,4 +1,12 @@
-var ipDomain = "http://192.168.0.28:5000/";
+var ipDomain = "http://192.168.1.9:5000/";
+
+function verificarCookie(){
+	if(document.cookie.length!==0){
+		location.href = "index";
+	}
+}
+setInterval(function(){verificarCookie()},1000);
+
 document.getElementById("login").onsubmit = function(e){
   e.preventDefault(e);
   var pas = document.getElementById("contraSucursal").value;
@@ -7,21 +15,26 @@ document.getElementById("login").onsubmit = function(e){
   $.ajax({
     url        : ipDomain+'login',
     dataType   : 'json',
-    contentType: 'application/json; charset=UTF-8', // This is the money shot
+    contentType: 'application/json; charset=UTF-8',
     data       : JSON.stringify(data),
     type       : 'POST',
     }).done(function(response) {
         if (response != null) {
           var date = new Date();
           date.setTime(date.getTime() + (180 * 1000));
-		  var expires = "; expires="+date.toGMTString();
-		  document.cookie = "sucursal="+response.idSucursal+expires;
+		      var expires = "; expires="+date.toGMTString();
+		      document.cookie = "sucursal="+response.idSucursal+expires;
+          new PNotify({
+            title: 'Aviso',
+            text: 'Ha Iniciado: '+response.nombreSucursal
+          });
           location.href = "index";
-          console.log("Ha Iniciado: "+response.nombreSucursal);
-        }else {
-          //poner modal aqui despues jejeje, ya vengo ah
-
-          console.log("Ha ocurrido un error jeje");
-        }
+          }else {
+            new PNotify({
+              title: 'Oh No!',
+              text: 'Error en usuario o contraseña',
+              type: 'error'
+            });
+          }
       });
 }
