@@ -39,7 +39,6 @@ document.getElementById("addMember").onsubmit = function(e){
     type       : 'POST',
     }).done(function(response) {
         if (response) {
-          CleanAddMember();
           new PNotify({
             title: 'Éxito',
             text: 'Se ha registrado un nuevo miembro con exito',
@@ -54,16 +53,32 @@ document.getElementById("addMember").onsubmit = function(e){
         }
       });
 }
-function CleanAddMember() {
-  document.getElementById("addMemberName").innerHTML="";
-  document.getElementById("addMemberLastName").innerHTML="";
-  document.getElementById("addMemberPhone").innerHTML="";
-}
-function Inactivo() {
-  new PNotify({
-    title: 'Aviso',
-    text: 'Se registro como inactivo'
-});
+//////////////////////////////////"Eliminar" miembro////////////////////////////////////////////
+function Eliminar(idMiembro) {
+  var data = {"activoMiembro":0, "idMiembro":idMiembro};
+  $.ajax({
+    url        : ipDomain+'miembros/estado',
+    dataType   : 'json',
+    contentType: 'application/json; charset=UTF-8', // This is the money shot
+    data       : JSON.stringify(data),
+    type       : 'POST',
+    }).done(function(response) {
+        if (response) {
+          new PNotify({
+            title: 'Éxito',
+            text: 'Se ha eliminado al miembro con exito',
+            type: 'success'
+          });
+          location.href = "index";
+        }else {
+          new PNotify({
+            title: 'Oh No!',
+            text: 'Ha ocurrido un error al eliminar',
+            type: 'error'
+          });
+        }
+      });
+
 }
 ///////////////////////////////////POST para pagos Matricula//////////////////////////////////////
 document.getElementById("pagoMatricula").onsubmit = function(e){
@@ -95,7 +110,7 @@ document.getElementById("pagoMatricula").onsubmit = function(e){
         }
       });
 }
-///////////////////////////////////POST para pagos Matricula//////////////////////////////////////
+///////////////////////////////////POST para pagos Mensualidad//////////////////////////////////////
 document.getElementById("pagoMensualidad").onsubmit = function(e){
   e.preventDefault();
   var idEmpleado = document.getElementById("empleados");
@@ -141,7 +156,7 @@ function ActivarModal(idMiembro){
   type: 'GET',
   }).done(function(response) {
     $.each(response, function(i){
-      
+
       $.ajax({
       url: ipDomain+"miembros/"+response[i].idMiembro,
       dataType: 'json',

@@ -162,7 +162,7 @@
                 <div class="panel-body fondo-panel">
                   <h3 th:text="${'Teléfono: '+miembro.telefonoMiembro}"/>
                   <button type="button" class="btn btn-info" th:onclick="'ActivarModal(\'' + ${miembro.idMiembro} + '\');'">Ver Pagos</button>
-                  <button type="button" class="btn" onclick="Inactivo()">Inactivo</button>
+                  <input type="button" class="btn btn-danger btn-default" value="Eliminar" th:onclick="'Eliminar(\'' + ${miembro.idMiembro} + '\');'"/>
                 </div>
               </div>
             </div>
@@ -198,7 +198,7 @@
                 </div>
 
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-danger btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                  <input type="button" class="btn btn-danger btn-default" data-dismiss="modal" value="Cerrar"/>
                 </div>
 
               </div>
