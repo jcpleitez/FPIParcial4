@@ -216,28 +216,34 @@ class Pagos(Resource):
              idP = request.json['idPago']
              #Contarlos para validar que no tenga una matricula
              queryCantidadPagos = conn.execute("select count(idPago) from pagos where idTipoPago=1 and idMiembro=%d "  %int(idM))
-             cantidaPagos = queryCantidadPagos.fetchone()[0]
-
+             cantidaMatricula = queryCantidadPagos.fetchone()[0]
              if idTP==1:
-                 if cantidaPagos==0:
+                 if cantidaMatricula==0:
                      textInsert = "insert into pagos(idTipoPago, idMiembro, idEmpleado, idSucursal, datePago) VALUES(?,?,?,?,?)"
                      query = conn.execute(textInsert, (idTP, idM, idE, idS, fecha))
-                     print "OK new POST Mensualidad in pagos"
-                     status = True
+                     print "OK new POST matricula in pagos"
+                     return True
                  else:
                      print "Miembro ya tiene matricula"
-                     status = False
-             else:
-                 textInsert = "insert into pagos(idTipoPago, idMiembro, idEmpleado, idSucursal, datePago) VALUES(?,?,?,?,?)"
-                 query = conn.execute(textInsert, (idTP, idM, idE, idS, fecha))
-                 print "OK new POST Mensualidad in pagos"
-                 status = True
+                     return False
+             elif idTP==2 and cantidaMatricula==1:
+                 print "OK"
+                 #Contarlos para validar que no tenga mas de 12 mensualidades
+                 queryCantidadMensualides = conn.execute("select count(idPago) from pagos where idTipoPago=2 and idMiembro=%d "  %int(idM))
+                 cantidaMensualidad = queryCantidadMensualides.fetchone()[0]
+                 if cantidaMensualidad<=12:
+                     textInsert = "insert into pagos(idTipoPago, idMiembro, idEmpleado, idSucursal, datePago) VALUES(?,?,?,?,?)"
+                     query = conn.execute(textInsert, (idTP, idM, idE, idS, fecha))
+                     print "OK new POST mensualidad in pagos"
+                     return True
+                 else:
+                     print "limite de mensualidades para Miembro"
+                     return False
 
          except:
              print "Bad JSON POST in pagos"
-             status = False
 
-         return status
+         return None
 
 class PagosMiembro(Resource):
     def get(self, idMiembro):
