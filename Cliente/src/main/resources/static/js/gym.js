@@ -127,7 +127,54 @@ document.getElementById("pagoMensualidad").onsubmit = function(e){
 }
 ////////////////////////////////////////Modal para ver pagos///////////////////////////////////////////////////
 function ActivarModal(idMiembro){
-
+	var codigo;
+	var fecha;
+	var nombre;
+	var apellido;
+	var sucursal;
+	var empleado;
+	var tipoPago;
+  $.ajax({
+  url: ipDomain+"pagos/miembro/"+idMiembro,
+  dataType: 'json',
+  type: 'GET',
+  }).done(function(response) {
+    $.each(response, function(i){
+      codigo=response[i].idPago;
+      fecha=response[i].datePago;
+      $.ajax({
+      url: ipDomain+"miembros/"+response[i].idMiembro,
+      dataType: 'json',
+      type: 'GET',
+    }).done(function(response1) {
+          nombre=response1.nombreMiembro;
+          apellido=response1.apellidoMiembro;
+      });
+      $.ajax({
+      url: ipDomain+"sucursales/"+response[i].idSucursal,
+      dataType: 'json',
+      type: 'GET',
+    }).done(function(response2) {
+          sucursal=response2.nombreSucursal;
+      });
+      $.ajax({
+      url: ipDomain+"empleados/"+response[i].idEmpleado,
+      dataType: 'json',
+      type: 'GET',
+    }).done(function(response3) {
+          empleado=response3.nombreEmpleado +" "+response3.apellidoEmpleado;
+      });
+      $.ajax({
+      url: ipDomain+"tipoPagos/"+response[i].idTipoPago,
+      dataType: 'json',
+      type: 'GET',
+    }).done(function(response4) {
+          tipoPago=response4.nombreTipoPago;
+      });
+      var tr = $('<tr><td>'+codigo+'</td><td>'+nombre+'</td><td>'+apellido+'</td><td>'+sucursal+'</td><td>'+tipoPago+'</td><td>'+empleado+'</td><td>'+fecha+'</td></tr>');
+      $("#valoresTabla").append(tr);
+    });
+  });
   $("#myModalPagos").modal();
 }
 //////////////////////////////////Manejando la cookie/////////////////////////////////////////////////
@@ -136,6 +183,10 @@ function LogOut() {
 }
 function verificarCookie(){
 	if(document.cookie.length==0){
+    new PNotify({
+      title: 'Aviso',
+      text: 'Se cerrará la sesión'
+    });
 		location.href = "login";
 	}
 }
